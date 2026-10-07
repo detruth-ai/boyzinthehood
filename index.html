@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>boyzinthehood | Urban Streetwear & Culture</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+darkMode: 'class',
+theme: {
+extend: {
+colors: {
+graphite: '#121214',
+darkBg: '#0a0a0c',
+cardBg: '#18181b',
+neonRed: '#ff2a5f',
+neonAccent: '#e11d48',
+subtleGray: '#27272a'
+},
+fontFamily: {
+sans: ['Inter', 'sans-serif'],
+display: ['Oswald', 'sans-serif'],
+}
+}
+}
+}
+</script>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body {
+font-family: 'Inter', sans-serif;
+background-color: #0a0a0c;
+color: #f4f4f5;
+overflow-x: hidden;
+}
+.font-display {
+font-family: 'Oswald', sans-serif;
+}
+/* Custom urban grid overlay background */
+.bg-grid-pattern {
+background-size: 40px 40px;
+background-image:
+linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+/* Neon Glow Effect */
+.neon-glow {
+box-shadow: 0 0 20px rgba(255, 42, 95, 0.35);
+}
+.neon-text-glow {
+text-shadow: 0 0 10px rgba(255, 42, 95, 0.5);
+}
+/* Glassmorphism Navigation */
+.glass-nav {
+background: rgba(10, 10, 12, 0.85);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+}
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+width: 8px;
+}
+::-webkit-scrollbar-track {
+background: #0a0a0c;
+}
+::-webkit-scrollbar-thumb {
+background: #27272a;
+border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+background: #ff2a5f;
+}
+</style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-neonRed selection:text-white">
+
+<!-- Top Announcement Bar -->
+<div class="bg-gradient-to-r from-neonRed via-rose-600 to-red-700 text-white text-xs font-bold uppercase tracking-wider py-2 text-center px-4 flex items-center justify-center gap-2">
+<span>🔥 LIMITED DROP 004 AVAILABLE NOW - FREE WORLDWIDE SHIPPING OVER $150</span>
+</div>
+
+<!-- Main Navigation Header -->
+<header class="sticky top-0 z-40 glass-nav border-b border-zinc-800/80 transition-all duration-300">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+
+<!-- Mobile Menu Toggle Button -->
+<button id="mobileMenuBtn" class="md:hidden text-zinc-300 hover:text-white p-2 focus:outline-none" aria-label="Open Navigation">
+<i data-lucide="menu" class="w-6 h-6"></i>
+</button>
+
+<!-- Brand Logo -->
+<a href="#" class="flex items-center gap-2 group">
+<span class="font-display text-2xl sm:text-3xl font-black tracking-tighter uppercase italic text-white group-hover:text-neonRed transition-colors">
+boyzinthehood<span class="text-neonRed font-sans text-xl font-normal group-hover:text-white">.</span>
+</span>
+</a>
+
+<!-- Desktop Navigation Links -->
+<nav class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wider uppercase">
+<a href="#hero" class="text-zinc-300 hover:text-neonRed transition-colors">Home</a>
+<a href="#shop" class="text-zinc-300 hover:text-neonRed transition-colors">Collection</a>
+<a href="#culture" class="text-zinc-300 hover:text-neonRed transition-colors">Culture</a>
+<a href="#lookbook" class="text-zinc-300 hover:text-neonRed transition-colors">Lookbook</a>
+</nav>
+
+<!-- Search Bar & Actions -->
+<div class="flex items-center space-x-4">
+<!-- Search Button (Toggles Search Bar) -->
+<button id="searchToggleBtn" class="p-2 text-zinc-300 hover:text-white transition-colors" title="Search Products">
+<i data-lucide="search" class="w-5 h-5"></i>
+</button>
+
+<!-- Cart Trigger Button -->
+<button id="openCartBtn" class="relative p-2 bg-zinc-900 border border-zinc-800 rounded-full hover:border-neonRed text-zinc-200 hover:text-neonRed transition-all">
+<i data-lucide="shopping-bag" class="w-5 h-5"></i>
+<span id="cartBadge" class="absolute -top-1 -right-1 bg-neonRed text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-darkBg hidden">
+0
+</span>
+</button>
+</div>
+</div>
+
+<!-- Inline Quick Search Bar Overlay (Collapsible) -->
+<div id="searchBarContainer" class="hidden border-t border-zinc-800 bg-zinc-950/90 py-3 px-4 sm:px-8">
+<div class="max-w-3xl mx-auto flex items-center gap-3">
+<i data-lucide="search" class="w-5 h-5 text-zinc-500"></i>
+<input type="text" id="searchInput" placeholder="Search hoodies, graphic tees, cargos, accessories..."
+class="w-full bg-transparent text-white placeholder-zinc-500 focus:outline-none text-sm font-medium">
+<button id="closeSearchBtn" class="text-zinc-500 hover:text-white text-xs uppercase font-bold tracking-wider">Close</button>
+</div>
+</div>
+</header>
+
+<!-- Mobile Navigation Drawer -->
+<div id="mobileDrawer" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none md:hidden">
+<div class="fixed inset-y-0 left-0 w-4/5 max-w-sm bg-zinc-950 border-r border-zinc-800 p-6 flex flex-col justify-between transform -translate-x-full transition-transform duration-300 ease-in-out" id="mobileDrawerPanel">
+<div>
+<div class="flex items-center justify-between pb-6 border-b border-zinc-800">
+<span class="font-display text-2xl font-black tracking-tighter uppercase italic text-white">
+boyzinthehood<span class="text-neonRed">.</span>
+</span>
+<button id="closeMobileDrawer" class="text-zinc-400 hover:text-white">
+<i data-lucide="x" class="w-6 h-6"></i>
+</button>
+</div>
+<nav class="mt-8 flex flex-col space-y-6 text-lg font-bold uppercase tracking-wide">
+<a href="#hero" class="mobile-link text-zinc-300 hover:text-neonRed transition-colors">Home</a>
+<a href="#shop" class="mobile-link text-zinc-300 hover:text-neonRed transition-colors">Collection</a>
+<a href="#culture" class="mobile-link text-zinc-300 hover:text-neonRed transition-colors">Culture</a>
+<a href="#lookbook" class="mobile-link text-zinc-300 hover:text-neonRed transition-colors">Lookbook</a>
+</nav>
+</div>
+
+<div class="border-t border-zinc-800 pt-6">
+<p class="text-xs text-zinc-500 uppercase tracking-widest mb-2">RAW URBAN CULTURE</p>
+<div class="flex space-x-4 text-zinc-400">
+<a href="#" class="hover:text-neonRed"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+<a href="#" class="hover:text-neonRed"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+<a href="#" class="hover:text-neonRed"><i data-lucide="youtube" class="w-5 h-5"></i></a>
+</div>
+</div>
+</div>
+</div>
+
+<main>
+<!-- Hero Banner -->
+<section id="hero" class="relative min-h-[85vh] flex items-center justify-center bg-grid-pattern border-b border-zinc-800 overflow-hidden py-20 px-4 sm:px-6">
+<!-- Background Radial Glows -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-neonRed/10 rounded-full blur-[140px] pointer-events-none"></div>
+<div class="absolute top-10 right-10 w-72 h-72 bg-red-900/20 rounded-full blur-[100px] pointer-events-none"></div>
+
+<div class="relative max-w-5xl mx-auto text-center z-10">
+<!-- Tagline Badge -->
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs font-mono text-zinc-300 mb-6 uppercase tracking-widest">
+<span class="w-2 h-2 rounded-full bg-neonRed animate-pulse"></span>
+Autumn / Winter Drop '26
+</div>
+
+<!-- Main Hero Title -->
+<h1 class="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-none mb-6 italic">
+RAW URBAN <br class="hidden sm:inline" />
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-zinc-500">STREETWEAR</span>
+</h1>
+
+<!-- Subtitle -->
+<p class="max-w-2xl mx-auto text-zinc-400 text-base sm:text-lg md:text-xl font-normal leading-relaxed mb-10">
+Born on the pavement. Defined by the concrete. Heavyweight cotton, oversized silhouettes, and uncompromised street culture.
+</p>
+
+<!-- Call to Action Buttons -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<a href="#shop" class="w-full sm:w-auto px-8 py-4 bg-neonRed hover:bg-rose-600 text-white font-bold uppercase tracking-wider rounded-none text-sm transition-all transform hover:-translate-y-0.5 neon-glow text-center flex items-center justify-center gap-2">
+Shop Collection
+<i data-lucide="arrow-right" class="w-4 h-4"></i>
+</a>
+<a href="#culture" class="w-full sm:w-auto px-8 py-4 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 font-bold uppercase tracking-wider rounded-none text-sm transition-all text-center">
+Our Culture
+</a>
+</div>
+</div>
+</section>
+
+<!-- Featured Products Section -->
+<section id="shop" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-zinc-800 pb-6 gap-6">
+<div>
+<span class="text-xs font-mono uppercase tracking-widest text-neonRed font-bold">// CATALOG 2026</span>
+<h2 class="font-display text-4xl sm:text-5xl font-black uppercase tracking-tight text-white mt-1">
+THE COLLECTION
+</h2>
+</div>
+
+<!-- Category Filters -->
+<div class="flex flex-wrap gap-2 text-xs uppercase font-bold tracking-wider" id="categoryFilterContainer">
+<button class="category-btn active px-4 py-2 border border-neonRed bg-neonRed text-white" data-category="all">All</button>
+<button class="category-btn px-4 py-2 border border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-zinc-600 hover:text-white transition-colors" data-category="hoodies">Hoodies</button>
+<button class="category-btn px-4 py-2 border border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-zinc-600 hover:text-white transition-colors" data-category="tees">Graphic Tees</button>
+<button class="category-btn px-4 py-2 border border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-zinc-600 hover:text-white transition-colors" data-category="bottoms">Bottoms</button>
+<button class="category-btn px-4 py-2 border border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-zinc-600 hover:text-white transition-colors" data-category="accessories">Accessories</button>
+</div>
+</div>
+
+<!-- Product Grid -->
+<div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+<!-- Products injected via JS -->
+</div>
+
+<!-- Empty State Search Result -->
+<div id="noProductsFound" class="hidden text-center py-16 bg-zinc-900/40 rounded-xl border border-dashed border-zinc-800">
+<i data-lucide="package-x" class="w-12 h-12 text-zinc-600 mx-auto mb-3"></i>
+<h3 class="text-lg font-bold text-zinc-300 uppercase">No items match your query</h3>
+<p class="text-zinc-500 text-sm mt-1">Try resetting your filters or search keywords.</p>
+<button id="resetFiltersBtn" class="mt-4 px-4 py-2 bg-zinc-800 text-zinc-200 text-xs uppercase font-bold tracking-wider hover:bg-neonRed hover:text-white transition-colors">Reset Filters</button>
+</div>
+</section>
+
+<!-- Culture & Brand Philosophy Section -->
+<section id="culture" class="py-20 bg-zinc-950 border-y border-zinc-800 relative overflow-hidden">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+<!-- Left: Graphic / Image Composition -->
+<div class="relative">
+<div class="aspect-square bg-zinc-900 border border-zinc-800 overflow-hidden relative group">
+<img src="https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=1000&q=80"
+alt="Urban Street Culture"
+class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700">
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+
+<!-- Overlay Badge -->
+<div class="absolute bottom-6 left-6 right-6 p-6 bg-zinc-950/90 border border-zinc-800 backdrop-blur-sm">
+<span class="text-neonRed font-mono text-xs uppercase tracking-widest font-bold">EST. 2024</span>
+<h4 class="font-display text-xl font-bold uppercase text-white mt-1">BUILT FROM CONCRETE & DESIRE</h4>
+</div>
+</div>
+<div class="absolute -bottom-4 -right-4 w-32 h-32 bg-neonRed/20 blur-3xl rounded-full pointer-events-none"></div>
+</div>
+
+<!-- Right: Story / Ethos -->
+<div class="space-y-6">
+<span class="text-xs font-mono uppercase tracking-widest text-neonRed font-bold">// THE MANIFESTO</span>
+<h2 class="font-display text-4xl sm:text-5xl font-black uppercase tracking-tight text-white leading-none">
+WE ARE THE SUB-CULTURE OF THE BLOCK.
+</h2>
+
+<p class="text-zinc-400 text-base leading-relaxed">
+<strong class="text-white">boyzinthehood</strong> isn't just clothing; it's an uncompromising attitude forged in urban epicenters. We draw inspiration from raw street photography, underground music scenes, graffiti architecture, and the unfiltered energy of youth subcultures.
+</p>
+
+<div class="grid grid-cols-2 gap-6 pt-4 border-t border-zinc-800">
+<div>
+<h3 class="font-display text-3xl font-black text-white">450 GSM</h3>
+<p class="text-zinc-500 text-xs uppercase font-semibold mt-1">Heavyweight Premium Fleece</p>
+</div>
+<div>
+<h3 class="font-display text-3xl font-black text-white">100% RAW</h3>
+<p class="text-zinc-500 text-xs uppercase font-semibold mt-1">Ethically Sourced Streetwear</p>
+</div>
+</div>
+
+<div class="pt-4">
+<a href="#lookbook" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white hover:text-neonRed border-b-2 border-neonRed pb-1 transition-colors">
+Explore Lookbook <i data-lucide="arrow-right" class="w-4 h-4"></i>
+</a>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- Lookbook Gallery Section -->
+<section id="lookbook" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-2xl mx-auto mb-16">
+<span class="text-xs font-mono uppercase tracking-widest text-neonRed font-bold">// VISUAL DIRECTORY</span>
+<h2 class="font-display text-4xl sm:text-5xl font-black uppercase tracking-tight text-white mt-1">
+FALL '26 LOOKBOOK
+</h2>
+<p class="text-zinc-400 text-sm mt-2">
+Captured on 35mm film across industrial districts. Tap any visual to view full size.
+</p>
+</div>
+
+<!-- Grid Gallery -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="lookbookGrid">
+<div class="lookbook-item group relative aspect-[3/4] overflow-hidden bg-zinc-900 cursor-pointer" data-img="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=80" data-caption="Overdyed Hoodies & Utility Cargos">
+<img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" alt="Lookbook 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 filter grayscale contrast-110 group-hover:grayscale-0">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+<span class="text-xs font-bold uppercase text-white tracking-widest">Look 01 / Utility Cargos</span>
+</div>
+</div>
+
+<div class="lookbook-item group relative aspect-[3/4] overflow-hidden bg-zinc-900 cursor-pointer md:translate-y-6" data-img="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=1000&q=80" data-caption="Heavyweight Box Tee in Concrete Gray">
+<img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=800&q=80" alt="Lookbook 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 filter grayscale contrast-110 group-hover:grayscale-0">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+<span class="text-xs font-bold uppercase text-white tracking-widest">Look 02 / Concrete Heavyweight</span>
+</div>
+</div>
+
+<div class="lookbook-item group relative aspect-[3/4] overflow-hidden bg-zinc-900 cursor-pointer" data-img="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1000&q=80" data-caption="Acid Wash Zip Hoodie & Street Balaclava">
+<img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80" alt="Lookbook 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 filter grayscale contrast-110 group-hover:grayscale-0">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+<span class="text-xs font-bold uppercase text-white tracking-widest">Look 03 / Acid Wash Zip Hoodie</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Underground Club Newsletter -->
+<section class="border-t border-zinc-800 bg-zinc-950 py-16 px-4">
+<div class="max-w-4xl mx-auto text-center">
+<i data-lucide="mail" class="w-8 h-8 text-neonRed mx-auto mb-4"></i>
+<h3 class="font-display text-3xl sm:text-4xl font-black uppercase text-white tracking-tight">
+JOIN THE HOOD INNER CIRCLE
+</h3>
+<p class="text-zinc-400 text-sm mt-2 max-w-md mx-auto">
+Get secret drop passwords, early access link previews, and private sample sale invites straight to your inbox.
+</p>
+
+<form id="newsletterForm" class="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+<input type="email" required placeholder="ENTER YOUR EMAIL..."
+class="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 text-xs uppercase font-medium focus:outline-none focus:border-neonRed">
+<button type="submit" class="px-6 py-3 bg-neonRed hover:bg-rose-600 text-white font-bold text-xs uppercase tracking-wider transition-colors whitespace-nowrap">
+SUBSCRIBE
+</button>
+</form>
+<p id="newsletterSuccess" class="text-emerald-400 text-xs font-bold uppercase mt-3 hidden">Welcome to the family. Check your inbox soon.</p>
+</div>
+</section>
+</main>
+
+<!-- Shopping Cart Drawer Overlay -->
+<div id="cartDrawer" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm transition-opacity duration-300 opacity-0 pointer-events-none">
+<div id="cartPanel" class="fixed inset-y-0 right-0 w-full max-w-md bg-zinc-950 border-l border-zinc-800 flex flex-col justify-between transform translate-x-full transition-transform duration-300 ease-in-out">
+
+<!-- Cart Header -->
+<div class="p-6 border-b border-zinc-800 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<i data-lucide="shopping-bag" class="w-5 h-5 text-neonRed"></i>
+<h3 class="font-display text-xl font-bold uppercase text-white tracking-wide">YOUR CART</h3>
+<span id="cartDrawerCount" class="text-xs bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded-full font-mono">0</span>
+</div>
+<button id="closeCartBtn" class="text-zinc-400 hover:text-white transition-colors">
+<i data-lucide="x" class="w-6 h-6"></i>
+</button>
+</div>
+
+<!-- Free Shipping Progress Tracker -->
+<div class="bg-zinc-900 px-6 py-3 border-b border-zinc-800">
+<div class="flex justify-between text-xs font-semibold uppercase mb-1">
+<span id="shippingText" class="text-zinc-400">Add $150 for Free Shipping</span>
+<span id="shippingAmountNeeded" class="text-neonRed font-mono">$150.00</span>
+</div>
+<div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+<div id="shippingProgressBar" class="bg-neonRed h-full w-0 transition-all duration-300"></div>
+</div>
+</div>
+
+<!-- Cart Items List Container -->
+<div id="cartItemsContainer" class="p-6 flex-1 overflow-y-auto space-y-4">
+<!-- Cart items rendered here dynamically -->
+</div>
+
+<!-- Cart Footer / Total / Checkout -->
+<div class="p-6 border-t border-zinc-800 bg-zinc-950 space-y-4">
+<div class="flex items-center justify-between text-sm">
+<span class="text-zinc-400 uppercase font-medium">Subtotal</span>
+<span id="cartSubtotal" class="font-mono text-lg font-bold text-white">$0.00</span>
+</div>
+<p class="text-[11px] text-zinc-500 uppercase">Taxes & shipping calculated at checkout.</p>
+<button id="checkoutBtn" class="w-full py-4 bg-neonRed hover:bg-rose-600 text-white font-bold uppercase tracking-wider text-sm transition-colors flex items-center justify-center gap-2">
+Proceed to Checkout
+<i data-lucide="arrow-right" class="w-4 h-4"></i>
+</button>
+</div>
+
+</div>
+</div>
+
+<!-- Lookbook Lightbox Modal -->
+<div id="lightboxModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4">
+<button id="closeLightbox" class="absolute top-6 right-6 text-white hover:text-neonRed">
+<i data-lucide="x" class="w-8 h-8"></i>
+</button>
+<div class="max-w-4xl w-full text-center">
+<img id="lightboxImg" src="" alt="Lookbook Preview" class="max-h-[80vh] mx-auto object-contain border border-zinc-800 shadow-2xl">
+<p id="lightboxCaption" class="text-zinc-300 font-display uppercase tracking-wider text-lg mt-4"></p>
+</div>
+</div>
+
+<!-- Checkout Success Notification Modal -->
+<div id="checkoutModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+<div class="bg-zinc-900 border border-zinc-800 max-w-md w-full p-8 text-center space-y-4 relative">
+<div class="w-16 h-16 bg-neonRed/20 border border-neonRed rounded-full flex items-center justify-center mx-auto text-neonRed">
+<i data-lucide="check" class="w-8 h-8"></i>
+</div>
+<h3 class="font-display text-3xl font-black uppercase text-white">ORDER PLACED</h3>
+<p class="text-zinc-400 text-sm">
+Thank you for representing <strong class="text-white">boyzinthehood</strong>. Your order confirmation has been dispatched.
+</p>
+<div class="bg-zinc-950 p-4 border border-zinc-800 text-xs font-mono text-left text-zinc-400 space-y-1">
+<p><span class="text-zinc-600">ORDER NO:</span> #BITH-89420</p>
+<p><span class="text-zinc-600">STATUS:</span> PROCESSING FOR SHIPMENT</p>
+</div>
+<button id="closeCheckoutModal" class="w-full py-3 bg-neonRed text-white font-bold uppercase text-xs tracking-wider hover:bg-rose-600 transition-colors">
+RETURN TO SHOP
+</button>
+</div>
+</div>
+
+<!-- Footer -->
+<footer class="border-t border-zinc-800 bg-zinc-950 text-zinc-400 text-xs py-12 px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="space-y-3">
+<span class="font-display text-2xl font-black tracking-tighter uppercase italic text-white">
+boyzinthehood<span class="text-neonRed">.</span>
+</span>
+<p class="text-zinc-500 leading-relaxed">
+Designed in the streets. Unapologetic urban streetwear engineered for everyday grit and durability.
+</p>
+</div>
+<div>
+<h4 class="font-bold uppercase text-white tracking-wider mb-3">Navigation</h4>
+<ul class="space-y-2">
+<li><a href="#shop" class="hover:text-neonRed transition-colors">All Products</a></li>
+<li><a href="#culture" class="hover:text-neonRed transition-colors">Culture Manifesto</a></li>
+<li><a href="#lookbook" class="hover:text-neonRed transition-colors">Lookbook Catalog</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold uppercase text-white tracking-wider mb-3">Customer Support</h4>
+<ul class="space-y-2">
+<li><a href="#" class="hover:text-neonRed transition-colors">Shipping & Returns</a></li>
+<li><a href="#" class="hover:text-neonRed transition-colors">Size Guide</a></li>
+<li><a href="#" class="hover:text-neonRed transition-colors">Order Tracking</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold uppercase text-white tracking-wider mb-3">Socials</h4>
+<div class="flex space-x-4 text-zinc-400">
+<a href="#" class="hover:text-neonRed transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+<a href="#" class="hover:text-lucide hover:text-neonRed transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+<a href="#" class="hover:text-neonRed transition-colors"><i data-lucide="youtube" class="w-5 h-5"></i></a>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto border-t border-zinc-900 mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center text-zinc-600 gap-4">
+<p>&copy; 2026 boyzinthehood. All rights reserved.</p>
+<div class="flex space-x-4 font-mono text-[10px]">
+<span>PRIVACY POLICY</span>
+<span>TERMS OF SERVICE</span>
+</div>
+</div>
+</footer>
+
+<script>
+// Product Data Inventory
+const PRODUCTS = [
+{
+id: 1,
+name: "Acid Gothic Heavy Hoodie",
+category: "hoodies",
+price: 110,
+tag: "Bestseller",
+image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80",
+sizes: ["S", "M", "L", "XL"]
+},
+{
+id: 2,
+name: "Concrete Oversized Box Tee",
+category: "tees",
+price: 55,
+tag: "New Drop",
+image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
+sizes: ["M", "L", "XL"]
+},
+{
+id: 3,
+name: "Tactical Multi-Pocket Cargos",
+category: "bottoms",
+price: 135,
+tag: "Limited",
+image: "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=600&q=80",
+sizes: ["30", "32", "34", "36"]
+},
+{
+id: 4,
+name: "Street Edge Balaclava Beanie",
+category: "accessories",
+price: 38,
+tag: "Hot",
+image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&w=600&q=80",
+sizes: ["ONE SIZE"]
+},
+{
+id: 5,
+name: "Cyber Punk Vintage Zip-Up",
+category: "hoodies",
+price: 125,
+tag: "Heavyweight",
+image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=600&q=80",
+sizes: ["M", "L", "XL"]
+},
+{
+id: 6,
+name: "Block Tag Graphic Heavy Tee",
+category: "tees",
+price: 60,
+tag: "Essential",
+image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
+sizes: ["S", "M", "L", "XL"]
+},
+{
+id: 7,
+name: "Industrial Utility Sling Bag",
+category: "accessories",
+price: 75,
+tag: "Restocked",
+image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",
+sizes: ["ONE SIZE"]
+},
+{
+id: 8,
+name: "Raw Canvas Wide Sweatpants",
+category: "bottoms",
+price: 95,
+tag: "Comfort",
+image: "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=600&q=80",
+sizes: ["S", "M", "L", "XL"]
+}
+];
+
+// Global State
+let cart = [];
+let activeCategory = 'all';
+let searchQuery = '';
+
+// DOM Elements
+const productGrid = document.getElementById('productGrid');
+const noProductsFound = document.getElementById('noProductsFound');
+const categoryFilterContainer = document.getElementById('categoryFilterContainer');
+const searchInput = document.getElementById('searchInput');
+const searchToggleBtn = document.getElementById('searchToggleBtn');
+const searchBarContainer = document.getElementById('searchBarContainer');
+const closeSearchBtn = document.getElementById('closeSearchBtn');
+
+// Cart Elements
+const cartDrawer = document.getElementById('cartDrawer');
+const cartPanel = document.getElementById('cartPanel');
+const openCartBtn = document.getElementById('openCartBtn');
+const closeCartBtn = document.getElementById('closeCartBtn');
+const cartBadge = document.getElementById('cartBadge');
+const cartDrawerCount = document.getElementById('cartDrawerCount');
+const cartItemsContainer = document.getElementById('cartItemsContainer');
+const cartSubtotal = document.getElementById('cartSubtotal');
+const shippingProgressBar = document.getElementById('shippingProgressBar');
+const shippingAmountNeeded = document.getElementById('shippingAmountNeeded');
+const shippingText = document.getElementById('shippingText');
+const checkoutBtn = document.getElementById('checkoutBtn');
+const checkoutModal = document.getElementById('checkoutModal');
+const closeCheckoutModal = document.getElementById('closeCheckoutModal');
+
+// Mobile Drawer
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileDrawer = document.getElementById('mobileDrawer');
+const mobileDrawerPanel = document.getElementById('mobileDrawerPanel');
+const closeMobileDrawer = document.getElementById('closeMobileDrawer');
+const mobileLinks = document.querySelectorAll('.mobile-link');
+
+// Lightbox
+const lightboxModal = document.getElementById('lightboxModal');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxCaption = document.getElementById('lightboxCaption');
+const closeLightbox = document.getElementById('closeLightbox');
+
+document.addEventListener('DOMContentLoaded', () => {
+lucide.createIcons();
+renderProducts();
+setupEventListeners();
+});
+
+// Render Product Cards
+function renderProducts() {
+const filtered = PRODUCTS.filter(product => {
+const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
+const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+product.category.toLowerCase().includes(searchQuery.toLowerCase());
+return matchesCategory && matchesSearch;
+});
+
+if (filtered.length === 0) {
+productGrid.classList.add('hidden');
+noProductsFound.classList.remove('hidden');
+return;
+}
+
+productGrid.classList.remove('hidden');
+noProductsFound.classList.add('hidden');
+
+productGrid.innerHTML = filtered.map(product => `
+<div class="group bg-cardBg border border-zinc-800 rounded-none overflow-hidden flex flex-col justify-between hover:border-zinc-600 transition-all duration-300">
+<div class="relative aspect-[4/5] bg-zinc-900 overflow-hidden">
+<img src="${product.image}" alt="${product.name}"
+class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter grayscale group-hover:grayscale-0">
+<span class="absolute top-3 left-3 bg-zinc-950/90 text-neonRed border border-zinc-800 px-2.5 py-1 text-[10px] font-mono uppercase font-bold tracking-wider">
+${product.tag}
+</span>
+
+<!-- Quick Add Hover Overlay -->
+<div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+<button onclick="addToCart(${product.id})" class="w-full py-2.5 bg-neonRed hover:bg-rose-600 text-white font-bold uppercase text-xs tracking-wider transition-colors shadow-lg flex items-center justify-center gap-2">
+<i data-lucide="plus" class="w-4 h-4"></i> Add To Cart
+</button>
+</div>
+</div>
+
+<div class="p-4 flex flex-col justify-between flex-grow">
+<div>
+<span class="text-[10px] font-mono uppercase tracking-widest text-zinc-500">${product.category}</span>
+<h3 class="font-display text-lg font-bold uppercase text-white mt-0.5 group-hover:text-neonRed transition-colors">${product.name}</h3>
+</div>
+<div class="mt-4 flex items-center justify-between border-t border-zinc-800/60 pt-3">
+<span class="font-mono text-base font-bold text-zinc-200">$${product.price}.00</span>
+<div class="flex gap-1 text-[10px] font-mono text-zinc-400">
+${product.sizes.map(s => `<span class="bg-zinc-900 px-1.5 py-0.5 border border-zinc-800">${s}</span>`).join('')}
+</div>
+</div>
+</div>
+</div>
+`).join('');
+
+lucide.createIcons();
+}
+
+// Cart Operations
+window.addToCart = function(productId) {
+const product = PRODUCTS.find(p => p.id === productId);
+if (!product) return;
+
+const existingItem = cart.find(item => item.id === productId);
+if (existingItem) {
+existingItem.quantity += 1;
+} else {
+cart.push({ ...product, quantity: 1 });
+}
+
+updateCartUI();
+toggleCartDrawer(true);
+};
+
+function updateCartQuantity(productId, delta) {
+const item = cart.find(item => item.id === productId);
+if (!item) return;
+
+item.quantity += delta;
+if (item.quantity <= 0) {
+cart = cart.filter(i => i.id !== productId);
+}
+updateCartUI();
+}
+
+function updateCartUI() {
+const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+// Badges
+cartBadge.innerText = totalItems;
+cartDrawerCount.innerText = totalItems;
+if (totalItems > 0) {
+cartBadge.classList.remove('hidden');
+} else {
+cartBadge.classList.add('hidden');
+}
+
+// Subtotal
+cartSubtotal.innerText = `$${subtotal.toFixed(2)}`;
+
+// Shipping Progress Calculation ($150 target)
+const target = 150;
+if (subtotal >= target) {
+shippingProgressBar.style.width = '100%';
+shippingText.innerText = 'You Unlocked Free Shipping!';
+shippingAmountNeeded.innerText = '$0.00';
+} else {
+const pct = (subtotal / target) * 100;
+shippingProgressBar.style.width = `${pct}%`;
+shippingText.innerText = `Add $${(target - subtotal).toFixed(2)} for Free Shipping`;
+shippingAmountNeeded.innerText = `$${(target - subtotal).toFixed(2)}`;
+}
+
+// Items List
+if (cart.length === 0) {
+cartItemsContainer.innerHTML = `
+<div class="text-center py-12 text-zinc-500 space-y-3">
+<i data-lucide="shopping-bag" class="w-10 h-10 mx-auto text-zinc-700"></i>
+<p class="text-xs font-bold uppercase tracking-wider">Your cart is currently empty</p>
+</div>
+`;
+} else {
+cartItemsContainer.innerHTML = cart.map(item => `
+<div class="flex items-center gap-4 bg-zinc-900 p-3 border border-zinc-800">
+<img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover border border-zinc-800">
+<div class="flex-1 min-w-0">
+<h4 class="font-display text-sm font-bold uppercase text-white truncate">${item.name}</h4>
+<span class="font-mono text-xs text-zinc-400">$${item.price}.00</span>
+
+<div class="flex items-center gap-2 mt-2">
+<button onclick="updateCartQuantity(${item.id}, -1)" class="w-5 h-5 bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center text-xs font-bold border border-zinc-700">-</button>
+<span class="font-mono text-xs font-bold text-white">${item.quantity}</span>
+<button onclick="updateCartQuantity(${item.id}, 1)" class="w-5 h-5 bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center text-xs font-bold border border-zinc-700">+</button>
+</div>
+</div>
+<button onclick="updateCartQuantity(${item.id}, -${item.quantity})" class="text-zinc-500 hover:text-neonRed p-1">
+<i data-lucide="trash-2" class="w-4 h-4"></i>
+</button>
+</div>
+`).join('');
+}
+
+lucide.createIcons();
+}
+
+// Toggle Drawers & Modals
+function toggleCartDrawer(open) {
+if (open) {
+cartDrawer.classList.remove('pointer-events-none', 'opacity-0');
+cartPanel.classList.remove('translate-x-full');
+} else {
+cartDrawer.classList.add('pointer-events-none', 'opacity-0');
+cartPanel.classList.add('translate-x-full');
+}
+}
+
+function toggleMobileDrawer(open) {
+if (open) {
+mobileDrawer.classList.remove('pointer-events-none', 'opacity-0');
+mobileDrawerPanel.classList.remove('-translate-x-full');
+} else {
+mobileDrawer.classList.add('pointer-events-none', 'opacity-0');
+mobileDrawerPanel.classList.add('-translate-x-full');
+}
+}
+
+// Setup All Event Listeners
+function setupEventListeners() {
+// Category Buttons
+categoryFilterContainer.addEventListener('click', (e) => {
+if (e.target.classList.contains('category-btn')) {
+document.querySelectorAll('.category-btn').forEach(btn => {
+btn.classList.remove('active', 'bg-neonRed', 'text-white', 'border-neonRed');
+btn.classList.add('bg-zinc-900', 'text-zinc-400', 'border-zinc-800');
+});
+e.target.classList.add('active', 'bg-neonRed', 'text-white', 'border-neonRed');
+e.target.classList.remove('bg-zinc-900', 'text-zinc-400', 'border-zinc-800');
+
+activeCategory = e.target.dataset.category;
+renderProducts();
+}
+});
+
+// Search Trigger
+searchToggleBtn.addEventListener('click', () => {
+searchBarContainer.classList.toggle('hidden');
+if (!searchBarContainer.classList.contains('hidden')) {
+searchInput.focus();
+}
+});
+
+closeSearchBtn.addEventListener('click', () => {
+searchBarContainer.classList.add('hidden');
+searchQuery = '';
+searchInput.value = '';
+renderProducts();
+});
+
+searchInput.addEventListener('input', (e) => {
+searchQuery = e.target.value;
+renderProducts();
+});
+
+document.getElementById('resetFiltersBtn').addEventListener('click', () => {
+searchQuery = '';
+activeCategory = 'all';
+searchInput.value = '';
+document.querySelectorAll('.category-btn').forEach((btn, idx) => {
+if (idx === 0) {
+btn.classList.add('active', 'bg-neonRed', 'text-white', 'border-neonRed');
+} else {
+btn.classList.remove('active', 'bg-neonRed', 'text-white', 'border-neonRed');
+btn.classList.add('bg-zinc-900', 'text-zinc-400', 'border-zinc-800');
+}
+});
+renderProducts();
+});
+
+// Cart Drawer Triggers
+openCartBtn.addEventListener('click', () => toggleCartDrawer(true));
+closeCartBtn.addEventListener('click', () => toggleCartDrawer(false));
+cartDrawer.addEventListener('click', (e) => {
+if (e.target === cartDrawer) toggleCartDrawer(false);
+});
+
+// Checkout Event
+checkoutBtn.addEventListener('click', () => {
+if (cart.length === 0) return;
+toggleCartDrawer(false);
+checkoutModal.classList.remove('hidden');
+checkoutModal.classList.add('flex');
+cart = [];
+updateCartUI();
+});
+
+closeCheckoutModal.addEventListener('click', () => {
+checkoutModal.classList.add('hidden');
+checkoutModal.classList.remove('flex');
+});
+
+// Mobile Drawer
+mobileMenuBtn.addEventListener('click', () => toggleMobileDrawer(true));
+closeMobileDrawer.addEventListener('click', () => toggleMobileDrawer(false));
+mobileDrawer.addEventListener('click', (e) => {
+if (e.target === mobileDrawer) toggleMobileDrawer(false);
+});
+mobileLinks.forEach(link => {
+link.addEventListener('click', () => toggleMobileDrawer(false));
+});
+
+// Lookbook Lightbox
+document.querySelectorAll('.lookbook-item').forEach(item => {
+item.addEventListener('click', () => {
+lightboxImg.src = item.dataset.img;
+lightboxCaption.innerText = item.dataset.caption;
+lightboxModal.classList.remove('hidden');
+lightboxModal.classList.add('flex');
+});
+});
+
+closeLightbox.addEventListener('click', () => {
+lightboxModal.classList.add('hidden');
+lightboxModal.classList.remove('flex');
+});
+
+// Newsletter Form
+document.getElementById('newsletterForm').addEventListener('submit', (e) => {
+e.preventDefault();
+document.getElementById('newsletterSuccess').classList.remove('hidden');
+e.target.reset();
+});
+}
+</script>
+</body>
+</html>
