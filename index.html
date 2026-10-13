@@ -573,70 +573,69 @@
 
     <!-- JavaScript Application Logic -->
     <script>
-        // Embedded Base64 / Cropped Photos from User Assets
         const products = [
             {
                 id: 1,
-                name: '"From The Trenches" Full Tracksuit - Black',
+                name: 'Full Tracksuit Set - Black',
                 category: 'tracksuits',
                 price: 5200,
-                image: 'images/tracksuit-black.jpg',
+                image: 'tracksuit-black.jpg.jpeg',
                 fallbackImg: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format&fit=crop&q=60'
             },
             {
                 id: 2,
-                name: '"From The Trenches" Full Tracksuit - Olive Green',
+                name: 'Full Tracksuit Set - Olive Green',
                 category: 'tracksuits',
                 price: 5200,
-                image: 'images/tracksuit-green.jpg',
+                image: 'tracksuit-green.jpg.jpeg',
                 fallbackImg: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format&fit=crop&q=60'
             },
             {
                 id: 3,
-                name: '"From The Trenches" Nylon Jacket - Black',
+                name: 'Nylon Zip Jacket - Black',
                 category: 'jackets',
                 price: 3200,
-                image: 'images/jacket-black.jpg',
+                image: 'tracksuit-black.jpg.jpeg',
                 fallbackImg: 'https://images.unsplash.com/photo-1544441893-675973e31985?w=500&auto=format&fit=crop&q=60'
             },
             {
                 id: 4,
-                name: '"From The Trenches" Nylon Jacket - Olive Green',
+                name: 'Nylon Zip Jacket - Olive Green',
                 category: 'jackets',
                 price: 3200,
-                image: 'images/jacket-green.jpg',
+                image: 'tracksuit-green.jpg.jpeg',
                 fallbackImg: 'https://images.unsplash.com/photo-1544441893-675973e31985?w=500&auto=format&fit=crop&q=60'
             },
             {
                 id: 5,
-                name: '"From The Trenches" Graphic Tee - Black',
+                name: 'Graphic Tee - Black',
                 category: 'tees',
                 price: 1500,
-                image: 'images/tee-black.jpg',
+                image: 'tee-black.jpg.jpeg',
                 fallbackImg: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60'
             },
             {
                 id: 6,
-                name: '"From The Trenches" Graphic Tee - White',
+                name: 'Graphic Tee - White',
                 category: 'tees',
                 price: 1500,
-                image: 'images/tee-white.jpg',
+                image: 'tee-white.jpg.jpeg',
                 fallbackImg: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60'
             },
             {
                 id: 7,
-                name: '"From The Trenches" Graphic Tee - Pink',
+                name: 'Graphic Tee - Pink',
                 category: 'tees',
                 price: 1500,
-                image: 'images/tee-pink.jpg',
+                image: 'tee-pink.jpg.jpeg',
                 fallbackImg: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60'
             },
             {
                 id: 8,
-                name: '"From The Trenches" Graphic Tee - Sky Blue',
+                name: 'Graphic Tee - Sky Blue',
                 category: 'tees',
                 price: 1500,
-                image: 'images/tee-blue.jpg',
+                image: 'tee-blue.jpg.jpeg',
                 fallbackImg: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60'
             }
         ];
@@ -763,23 +762,3 @@
         function handleCheckout(e) {
             e.preventDefault();
             const name = document.getElementById('custName').value;
-            const phone = document.getElementById('custPhone').value;
-            const location = document.getElementById('custLocation').value;
-
-            const orderDetails = cart.map(i => `• ${i.name} (Size: ${i.size}, Qty: ${i.qty}) - KSh ${i.price * i.qty}`).join('%0A');
-            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-
-            const message = `🔥 *NEW ORDER - BOYZINTHEHOOD* 🔥%0A%0A*Customer:* ${name}%0A*Phone:* ${phone}%0A*Delivery Location:* ${location}%0A%0A*ITEMS:*%0A${orderDetails}%0A%0A*TOTAL:* KSh ${total.toLocaleString()}`;
-
-            // Redirect to WhatsApp order line
-            window.open(`https://wa.me/254700000000?text=${message}`, '_blank');
-            closeCheckout();
-            cart = [];
-            updateCart();
-        }
-
-        // Initialize Page
-        renderProducts(products);
-    </script>
-</body>
-</html>
