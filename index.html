@@ -405,4 +405,380 @@
         .checkout-btn {
             width: 100%;
             background: var(--accent-green);
-            color: #0
+            color: #000;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checkout-btn:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.5);
+        }
+
+        /* Modal Checkout */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 480px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .modal-content h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            background: #181820;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: #fff;
+            font-family: var(--font-body);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">BOYZ<span>INTHEHOOD</span></a>
+        <button class="cart-btn-trigger" onclick="toggleCart()">
+            🛒 CART <span class="cart-count" id="cartCount">0</span>
+        </button>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero">
+        <div class="hero-badge">DROP 01 — AVAILABLE NOW</div>
+        <h1>FROM THE TRENCHES</h1>
+        <p>Premium oversized drill & Y2K streetwear engineered for the culture.</p>
+    </section>
+
+    <!-- Filter Navigation -->
+    <div class="filter-nav">
+        <button class="filter-btn active" onclick="filterCategory('all')">ALL</button>
+        <button class="filter-btn" onclick="filterCategory('tracksuits')">TRACKSUITS</button>
+        <button class="filter-btn" onclick="filterCategory('jackets')">JACKETS</button>
+        <button class="filter-btn" onclick="filterCategory('tees')">GRAPHIC TEES</button>
+    </div>
+
+    <!-- Product Grid -->
+    <main class="container">
+        <div class="products-grid" id="productsGrid">
+            <!-- Product items are dynamically populated by JavaScript below -->
+        </div>
+    </main>
+
+    <!-- Cart Drawer -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h2>YOUR CART</h2>
+            <button class="close-cart" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">Your cart is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>TOTAL:</span>
+                <span id="cartTotal">KSh 0</span>
+            </div>
+            <button class="checkout-btn" onclick="openCheckout()">PROCEED TO CHECKOUT</button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <h3>CHECKOUT & ORDER</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                Select your payment method and complete your order via M-Pesa or Direct WhatsApp dispatch.
+            </p>
+            <form onsubmit="handleCheckout(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="custName" placeholder="e.g. John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number (M-Pesa / WhatsApp)</label>
+                    <input type="tel" id="custPhone" placeholder="07XXXXXXXX" required>
+                </div>
+                <div class="form-group">
+                    <label>Delivery Location / Town</label>
+                    <input type="text" id="custLocation" placeholder="e.g. Nairobi CBD / Westlands" required>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select id="payMethod">
+                        <option value="whatsapp">M-Pesa / WhatsApp Direct Order</option>
+                        <option value="cod">Cash on Delivery (Nairobi Only)</option>
+                    </select>
+                </div>
+                <button type="submit" class="checkout-btn" style="margin-top: 1rem;">PLACE ORDER NOW</button>
+            </form>
+            <button onclick="closeCheckout()" style="background: none; border: none; color: var(--text-muted); width: 100%; margin-top: 1rem; cursor: pointer;">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 BOYZINTHEHOOD STREETWEAR. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: 'Full Tracksuit Set - Black',
+                category: 'tracksuits',
+                price: 5200,
+                image: 'tracksuit-black.jpg.jpeg',
+                fallbackImg: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format&fit=crop&q=60'
+            },
+            {
+                id: 2,
+                name: 'Full Tracksuit Set - Olive Green',
+                category: 'tracksuits',
+                price: 5200,
+                image: 'tracksuit-green.jpg.jpeg',
+                fallbackImg: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format&fit=crop&q=60'
+            },
+            {
+                id: 3,
+                name: 'Nylon Zip Jacket - Black',
+                category: 'jackets',
+                price: 3200,
+                image: 'tracksuit-black.jpg.jpeg',
+                fallbackImg: 'https://images.unsplash.com/photo-1544441893-675973e31985?w=500&auto=format&fit=crop&q=60'
+            },
+            {
+                id: 4,
+                name: 'Nylon Zip Jacket - Olive Green',
+                category: 'jackets',
+                price: 3200,
+                image: 'tracksuit-green.jpg.jpeg',
+                fallbackImg: 'https://images.unsplash.com/photo-1544441893-675973e31985?w=500&auto=format&fit=crop&q=60'
+            },
+            {
+                id: 5,
+                name: 'Graphic Tee - Black',
+                category: 'tees',
+                price: 1500,
+                image: 'tee-black.jpg.jpeg',
+                fallbackImg: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60'
+            },
+            {
+                id: 6,
+                name: 'Graphic Tee - White',
+                category: 'tees',
+                price: 1500,
+                image: 'tee-white.jpg.jpeg',
+                fallbackImg: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60'
+            },
+            {
+                id: 7,
+                name: 'Graphic Tee - Pink',
+                category: 'tees',
+                price: 1500,
+                image: 'tee-pink.jpg.jpeg',
+                fallbackImg: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60'
+            },
+            {
+                id: 8,
+                name: 'Graphic Tee - Sky Blue',
+                category: 'tees',
+                price: 1500,
+                image: 'tee-blue.jpg.jpeg',
+                fallbackImg: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60'
+            }
+        ];
+
+        let cart = [];
+        let selectedSizes = {};
+
+        // Render Product Cards
+        function renderProducts(items) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = items.map(product => `
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="${product.image}" onerror="this.src='${product.fallbackImg}'" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-tag">${product.category}</div>
+                        <div class="product-title">${product.name}</div>
+                        <div class="product-price">KSh ${product.price.toLocaleString()}</div>
+                        
+                        <div class="size-selector">
+                            ${['S', 'M', 'L', 'XL', 'XXL'].map(size => `
+                                <button class="size-btn ${selectedSizes[product.id] === size ? 'selected' : ''}" 
+                                        onclick="selectSize(${product.id}, '${size}')">${size}</button>
+                            `).join('')}
+                        </div>
+
+                        <button class="add-cart-btn" onclick="addToCart(${product.id})">ADD TO CART</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectSize(productId, size) {
+            selectedSizes[productId] = size;
+            renderProducts(products);
+        }
+
+        function addToCart(productId) {
+            const size = selectedSizes[productId] || 'M';
+            const product = products.find(p => p.id === productId);
+            
+            const existingItem = cart.find(item => item.id === productId && item.size === size);
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.push({ ...product, size: size, qty: 1 });
+            }
+            
+            updateCart();
+            toggleCart(true);
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            const cartCount = document.getElementById('cartCount');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            cartCount.textContent = totalItems;
+            cartTotal.textContent = `KSh ${totalPrice.toLocaleString()}`;
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = `<p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">Your cart is empty.</p>`;
+                return;
+            }
+
+            cartItems.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <img src="${item.image}" onerror="this.src='${item.fallbackImg}'" alt="${item.name}">
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-meta">Size: ${item.size} | Qty: ${item.qty}</div>
+                        <div style="font-weight: 700; color: var(--accent-green); margin-top: 4px;">KSh ${(item.price * item.qty).toLocaleString()}</div>
+                    </div>
+                    <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #ff4444; cursor: pointer; font-size: 1.2rem;">&times;</button>
+                </div>
+            `).join('');
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function toggleCart(forceOpen = false) {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            if (forceOpen || !drawer.classList.contains('active')) {
+                drawer.classList.add('active');
+                overlay.classList.add('active');
+            } else {
+                drawer.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        }
+
+        function filterCategory(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (category === 'all') {
+                renderProducts(products);
+            } else {
+                renderProducts(products.filter(p => p.category === category));
+            }
+        }
+
+        function openCheckout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            toggleCart();
+            document.getElementById('checkoutModal').classList.add('active');
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').classList.remove('active');
+        }
+
+        function handleCheckout(e) {
+            e.preventDefault();
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const location = document.getElementById('custLocation').value;
+
+            const orderDetails = cart.map(i => `• ${i.name} (Size: ${i.size}, Qty: ${i.qty}) - KSh ${i.price * i.qty}`).join('%0A');
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            const message = `🔥 *NEW ORDER - BOYZINTHEHOOD* 🔥%0A%0A*Customer:* ${name}%0A*Phone:* ${phone}%0A*Delivery Location:* ${location}%0A%0A*ITEMS:*%0A${orderDetails}%0A%0A*TOTAL:* KSh ${total.toLocaleString()}`;
+
+            // Directly dispatches orders to your WhatsApp line: 0795629676
+            window.open(`https://wa.me/254795629676?text=${message}`, '_blank');
+            closeCheckout();
+            cart = [];
+            updateCart();
+        }
+
+        // Initialize Page
+        renderProducts(products);
+    </script>
+</body>
+</html>
